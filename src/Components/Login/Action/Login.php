@@ -10,7 +10,6 @@ use PhpFidder\Core\Components\Login\Event\LoginSuccessEvent;
 use PhpFidder\Core\Components\Login\LoginRequest\LoginRequest;
 use PhpFidder\Core\Components\Login\Response\LoginResponse;
 use PhpFidder\Core\Components\Login\Validator\LoginValidator;
-use PhpFidder\Core\Hydrator\UserHydrator;
 use PhpFidder\Core\Repository\UserRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
