@@ -44,6 +44,8 @@ final class Login
                 $event = new LoginSuccessEvent($user);
                 $this->eventDispatcher->dispatch($event);
                 return new RedirectResponse('/');
+            } else {
+                $this->loginValidator->setError('Passwort nicht korrekt');
             }
 
         }

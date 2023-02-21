@@ -43,7 +43,9 @@ final class Register
 
         if ($registerRequest->isPostRequest() &&
             $this->registerValidator->isValid($registerRequest)) {
-            $user = $this->userHydrator->hydrate($registerRequest->toArray());
+            $userArray = $registerRequest->toArray();
+            $userArray['passwordHash'] = $this->passwordHasher->hash($registerRequest->getPassword());
+            $user = $this->userHydrator->hydrate($userArray);
             $this->userRepository->add($user);
             $this->userRepository->persist();
 

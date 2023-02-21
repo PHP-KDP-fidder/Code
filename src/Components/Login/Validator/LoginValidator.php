@@ -7,17 +7,18 @@ use PhpFidder\Core\Components\Core\AbstractValidator;
 use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
 use PhpFidder\Core\Components\Login\LoginRequest\LoginRequest;
 
-#[\AllowDynamicProperties]
 final class LoginValidator extends AbstractValidator
 {
+    public bool $userNotExists = false;
+    public bool $passwordIsInvalid = false;
     public function enablePasswordIsInvalidError(): void
     {
-        $this->errors[] = 'Passwort ist falsch';
+        $this->passwordIsInvalid = true;
     }
     //
     public function enableUserNotExistsError(): void
     {
-        $this->errors[] = 'User existiert nicht';
+        $this->userNotExists = true;
     }
     /**
      * @param LoginRequest $request
@@ -28,23 +29,24 @@ final class LoginValidator extends AbstractValidator
         $username = $request->getUsername();
         $password = $request->getPassword();
         $usernameIsEmpty = mb_strlen($username) === 0;
+        $passwordIsEmpty = mb_strlen($password) === 0;
         $errors = [];
+
         if ($usernameIsEmpty) {
             $errors[] = 'Username darf nicht leer sein!';
+        }
+        if ($usernameIsEmpty === false &&
+        $this->userNotExists) {
+            $errors[] = 'User existiert nicht';
         }
         if (mb_strlen($password) === 0) {
             $errors[] = 'Passwort darf nicht leer sein';
         }
+        if ($passwordIsEmpty === false &&
+        $this->passwordIsInvalid) {
+            $errors[] = 'Passwort nicht korrekt';
+        }
 
         return $errors;
     }
-    /**
-     * @return array
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-
 }

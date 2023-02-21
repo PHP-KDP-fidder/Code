@@ -19,4 +19,9 @@ abstract class AbstractValidator
     {
         return $this->errors;
     }
+    //
+    public function setError(string $error): void
+    {
+        $this->errors[] = $error;
+    }
 }

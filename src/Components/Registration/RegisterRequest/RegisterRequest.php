@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Registration\RegisterRequest;
 
+use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class RegisterRequest
+class RegisterRequest implements ValidatorRequestInterface
 {
     private readonly string $username;
     private readonly string $email;
