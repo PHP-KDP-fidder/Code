@@ -8,7 +8,6 @@ use PhpFidder\Core\Components\Core\AbstractValidator;
 use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
 use PhpFidder\Core\Components\Registration\RegisterRequest\RegisterRequest;
 
-
 final class RegisterValidator extends AbstractValidator
 {
     private array $errors = [];

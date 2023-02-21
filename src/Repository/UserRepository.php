@@ -12,5 +12,5 @@ interface UserRepository
     public function persist(): bool;
     public function userExists(string $username): bool;
     public function emailExists(string $email): bool;
-    public function findByUsername(string $username):UserEntity;
+    public function findByUsername(string $username): UserEntity;
 }

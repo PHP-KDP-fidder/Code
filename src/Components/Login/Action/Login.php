@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Login\Action;
@@ -17,17 +18,17 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class Login
 {
-    public function __construct(private readonly LoginValidator $loginValidator,
-                                private readonly UserRepository $userRepository,
-                                private readonly PasswordHasherInterface $passwordHasher,
-                                private readonly Container $session,
-                                private readonly EventDispatcherInterface $eventDispatcher
-    )
-    {
+    public function __construct(
+        private readonly LoginValidator $loginValidator,
+        private readonly UserRepository $userRepository,
+        private readonly PasswordHasherInterface $passwordHasher,
+        private readonly Container $session,
+        private readonly EventDispatcherInterface $eventDispatcher
+    ) {
     }
     //
-    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface {
-
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
+    {
         $loginRequest = new LoginRequest($serverRequest);
         $userExists = $this->userRepository->userExists($loginRequest->getUsername());
         if ($userExists === false) {
@@ -35,7 +36,6 @@ final class Login
         }
 
         if ($loginRequest->isPostRequest() && $this->loginValidator->isValid($loginRequest)) {
-
             $user = $this->userRepository->findByUsername($loginRequest->getUsername());
             $passwordIsValid = $this->passwordHasher->isValid($loginRequest->getPassword(), $user->getPasswordHash());
             if ($passwordIsValid) {
@@ -46,12 +46,10 @@ final class Login
             } else {
                 $this->loginValidator->setError('Passwort nicht korrekt');
             }
-
         }
 
         $loginRequest = $loginRequest->withErrors($this->loginValidator->getErrors());
 
         return new LoginResponse($loginRequest);
-
     }
 }
