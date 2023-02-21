@@ -2,13 +2,19 @@
 declare(strict_types=1);
 require_once __DIR__.'/vendor/autoload.php';
 
+use DI\ContainerBuilder;
+use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\RouteCollectionInterface;
-use PhpFidder\Core\Registration\Action\Register;
+use PhpFidder\Core\Components\Login\Action\Login;
+use PhpFidder\Core\Components\Registration\Action\Register;
 use PhpFidder\Core\Renderer\TemplateRendererInterface;
+use PhpFidder\Core\Renderer\TemplateRendererMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use DI\ContainerBuilder;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $builder = new ContainerBuilder();
 
@@ -19,6 +25,8 @@ $router = $container->get(RouteCollectionInterface::class);
 $request = $container->get(ServerRequestInterface::class);
 $emitter = $container->get(EmitterInterface::class);
 
+$router->middleware($container->get(TemplateRendererMiddleware::class));
+
 // map a route
 $router->map('GET', '/', function (ServerRequestInterface $request) use($container): ResponseInterface {
     $renderer = $container->get(TemplateRendererInterface::class);
@@ -26,14 +34,16 @@ $router->map('GET', '/', function (ServerRequestInterface $request) use($contain
     $body = $renderer->render('index', [
         'test' => 'Mustache Variable',
     ]);
-    $response = new Laminas\Diactoros\Response;
+    $response = new Response;
     $response->getBody()->write($body);
     return $response;
 });
-
+// Registration
 $router->map('GET','/account/create', Register::class);
 $router->map('POST','/account/create', Register::class);
-
+// Login
+$router->map('GET','/account/login', Login::class);
+$router->map('POST','/account/login', Login::class);
 $response = $router->dispatch($request);
 
 // send the response to the browser
