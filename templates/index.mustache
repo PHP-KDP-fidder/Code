@@ -1,3 +1,8 @@
-<h1>
-    Willkommen bei Mustache - Variable: {{test}}
-</h1>
+{{% BLOCKS }}
+{{< layout/index }}
+    {{$ content }}
+        <h1>
+            {{ welcomeMessage }}
+        </h1>
+    {{/content}}
+{{/ layout/index }}

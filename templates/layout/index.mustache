@@ -1,0 +1,38 @@
+{{% BLOCKS }}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>{{$ title }}My Awesome{{/ title}}</title>
+    <link href="/assets/css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/bootstrap-icons.css" rel="stylesheet" type="text/css" />
+    <script src="/assets/js/bootstrap.min.js"></script>
+    {{$ stylesheets }}
+    {{/ stylesheets }}
+</head>
+
+{{$ scripts }}
+{{/ scripts}}
+<body>
+<section class="hero main">
+    <div class="hero-body">
+        <div class="container">
+            <p>
+            <h2 class="text-center">< Fidder /></h2>
+            </p>
+            <p class="subtitle">
+                Let the World know!
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    {{$ content }}
+    {{/ content }}
+</div>
+
+{{$ scripts }}
+{{/scripts}}
+</body>
+</html>

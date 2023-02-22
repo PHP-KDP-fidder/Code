@@ -1,10 +1,57 @@
-{{#errors}}
-    <div style="color: red">{{.}}</div>
-{{/errors}}
-<form method="post">
-    <div><input type="text" name="username" placeholder="Username" value="{{username}}"></div>
-    <div><input type="email" name="email" placeholder="E-Mail" value="{{email}}"></div>
-    <div><input type="password" name="password" placeholder="Passwort" value="{{password}}"></div>
+{{% BLOCKS }}
+{{< layout/index }}
 
-    <div><button>Login</button></div>
-</form>
+    {{$ content }}
+        <div class="card">
+            <div class="card-body">
+                {{#errors}}
+                    <div class="alert alert-warning" role="alert">
+                        {{ . }}
+                    </div>
+                {{/errors}}
+                <form class="row gy-2 gx-3 align-items-center" method="post">
+                    <div class="col-auto">
+                        <label class="visually-hidden" for="autoSizingUsername">Username</label>
+                        <div class="input-group">
+                            <div class="fidder-font-color input-group-text">@</div>
+                            <input name="username" type="text" class="form-control" id="autoSizingUsername"
+                                   placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <label class="visually-hidden" for="autoSizingEmail">email</label>
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <i class="fidder-font-color bi bi-envelope-fill"></i>
+                            </div>
+                            <input name="email" type="email" class="form-control" id="autoSizingEmail"
+                                   placeholder="E-Mail">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <label class="visually-hidden" for="autoSizingPassword">password</label>
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <i class="bi bi-shield-lock-fill"></i>
+                            </div>
+                            <input name="email" type="password" class="form-control" id="autoSizingPassword"
+                                   placeholder="Passwort">
+                        </div>
+                    </div>
+                    <div class="row gy-2 gx-3">
+                        <div class="col text-end">
+                            <button class="btn btn-primary">Login</button>
+                        </div>
+                        <div class="col text-start">
+                            <button class="btn btn-primary">Abbruch</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+    {{/content}}
+{{/layout/index}}
+

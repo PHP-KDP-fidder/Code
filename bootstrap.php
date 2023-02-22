@@ -5,11 +5,17 @@ require_once __DIR__.'/vendor/autoload.php';
 use DI\ContainerBuilder;
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use League\Event\EventDispatcher;
 use League\Route\RouteCollectionInterface;
+use PhpFidder\Core\Components\Core\EventSubscriber;
+use PhpFidder\Core\Components\Landing\Action\index;
+use PhpFidder\Core\Components\Landing\Event\IndexEvent;
+use PhpFidder\Core\Components\Landing\Event\IndexListener;
 use PhpFidder\Core\Components\Login\Action\Login;
 use PhpFidder\Core\Components\Registration\Action\Register;
 use PhpFidder\Core\Renderer\TemplateRendererInterface;
 use PhpFidder\Core\Renderer\TemplateRendererMiddleware;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -26,18 +32,16 @@ $request = $container->get(ServerRequestInterface::class);
 $emitter = $container->get(EmitterInterface::class);
 
 $router->middleware($container->get(TemplateRendererMiddleware::class));
+///**
+// * @var EventDispatcher $dispatcher
+// */
+//$dispatcher = $container->get(EventDispatcherInterface::class);
+//$dispatcher->subscribeTo(IndexEvent::class, $container->get(IndexListener::class));
+$subscriber = $container->get(EventSubscriber::class);
+$subscriber->subscribeToEvent();
 
 // map a route
-$router->map('GET', '/', function (ServerRequestInterface $request) use($container): ResponseInterface {
-    $renderer = $container->get(TemplateRendererInterface::class);
-
-    $body = $renderer->render('index', [
-        'test' => 'Mustache Variable',
-    ]);
-    $response = new Response;
-    $response->getBody()->write($body);
-    return $response;
-});
+$router->map('GET', '/', index::class);
 // Registration
 $router->map('GET','/account/create', Register::class);
 $router->map('POST','/account/create', Register::class);

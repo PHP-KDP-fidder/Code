@@ -8,11 +8,10 @@ use PhpFidder\Core\Entity\UserEntity;
 
 final class LoginSuccessEvent
 {
-    private readonly UserEntity $user;
+//    private readonly UserEntity $user;
 
-    public function __construct(UserEntity $user)
+    public function __construct(private readonly UserEntity $user)
     {
-        $this->user = $user;
     }
 
 
