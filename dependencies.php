@@ -14,10 +14,12 @@ use League\Event\EventDispatcher;
 use League\Route\RouteCollectionInterface;
 use League\Route\Router;
 use League\Route\Strategy\ApplicationStrategy;
+use PhpFidder\Core\Components\Core\EmailValidatorInterface;
 use PhpFidder\Core\Components\Core\EventSubscriber;
 use PhpFidder\Core\Components\Core\NativePasswordHasher;
 use PhpFidder\Core\Components\Core\PasswordHasherInterface;
 use PhpFidder\Core\Components\Landing\Event\IndexListener;
+use PhpFidder\Core\Components\Login\Validator\EmailValidator;
 use PhpFidder\Core\Hydrator\UserHydrator;
 use PhpFidder\Core\Renderer\MustacheTemplateRenderer;
 use PhpFidder\Core\Renderer\TemplateRendererInterface;
@@ -106,4 +108,7 @@ return [
     EventSubscriber::class => function(ContainerInterface $container) {
         return new EventSubscriber($container->get(EventDispatcherInterface::class), $container->get('listeners'));
     },
+    EmailValidatorInterface::class => function() {
+        return new EmailValidator();
+    }
 ];

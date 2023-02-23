@@ -11,12 +11,27 @@ abstract class AbstractValidator
 
     public function isValid(ValidatorRequestInterface $request): bool
     {
-        $this->errors = $this->validate($request);
+        /**
+         * @Comment
+         * array kann schon durch setter vorbelegt sein,
+         * deshalb ein foreach über validate
+         */
+        foreach ($this->validate($request) as $error) {
+            $this->errors[] = $error;
+        }
         return count($this->errors) === 0;
     }
 
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+    /**
+     * @param array $errors
+     */
+    public function setErrors(string $error): void
+    {
+        $this->errors[] = $error;
     }
 }

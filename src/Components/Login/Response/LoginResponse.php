@@ -22,6 +22,9 @@ class LoginResponse extends Response implements RenderAwareInterface
         $this->errors = $loginRequest->getErrors();
     }
 
+    public function hasErrors(): bool {
+        return count($this->errors) > 0;
+    }
     public function getTemplateName()
     {
         return 'login';

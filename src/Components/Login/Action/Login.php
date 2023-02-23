@@ -5,6 +5,7 @@ namespace PhpFidder\Core\Components\Login\Action;
 
 use Laminas\Diactoros\Response\RedirectResponse;
 use Laminas\Session\Container;
+use PhpFidder\Core\Components\Core\EmailValidatorInterface;
 use PhpFidder\Core\Components\Core\PasswordHasherInterface;
 use PhpFidder\Core\Components\Login\Event\LoginSuccessEvent;
 use PhpFidder\Core\Components\Login\LoginRequest\LoginRequest;
@@ -21,6 +22,7 @@ final class Login
     public function __construct(private readonly LoginValidator $loginValidator,
                                 private readonly UserRepository $userRepository,
                                 private readonly PasswordHasherInterface $passwordHasher,
+                                private readonly EmailValidatorInterface $emailValidator,
                                 private readonly Container $session,
                                 private readonly EventDispatcherInterface $eventDispatcher
     )
@@ -31,21 +33,29 @@ final class Login
 
         $loginRequest = new LoginRequest($serverRequest);
         $userExists = $this->userRepository->userExists($loginRequest->getUsername());
-        if ($userExists === false) {
+        if ($userExists === false && $loginRequest->isPostRequest()) {
             $this->loginValidator->enableUserNotExistsError();
         }
 
         if ($loginRequest->isPostRequest() && $this->loginValidator->isValid($loginRequest)) {
-
-            $user = $this->userRepository->findByUsername($loginRequest->getUsername());
-            $passwordIsValid = $this->passwordHasher->isValid($loginRequest->getPassword(), $user->getPasswordHash());
-            if ($passwordIsValid) {
-                $this->session->userId = $user->getId();
-                $event = new LoginSuccessEvent($user);
-                $this->eventDispatcher->dispatch($event);
-                return new RedirectResponse('/');
+            if ($userExists) {
+                $user = $this->userRepository->findByUsername($loginRequest->getUsername());
+                $passwordIsValid = $this->passwordHasher->isValid($loginRequest->getPassword(), $user->getPasswordHash());
+                $emailIsValid = $this->emailValidator->validateEmail($loginRequest->getEmail(), $user->getEmail());
+                if ($passwordIsValid && $emailIsValid) {
+                    $this->session->userId = $user->getId();
+                    $event = new LoginSuccessEvent($user);
+                    $this->eventDispatcher->dispatch($event);
+                    return new RedirectResponse('/');
+                } else {
+                    if (!$passwordIsValid) {
+                        $this->loginValidator->enablePasswordIsInvalidError();
+                    }
+                    if (!$emailIsValid) {
+                        $this->loginValidator->enableEmailIsInvalidError();
+                    }
+                }
             }
-
         }
 
         $loginRequest = $loginRequest->withErrors($this->loginValidator->getErrors());

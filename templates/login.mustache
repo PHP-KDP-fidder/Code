@@ -1,57 +1,28 @@
 {{% BLOCKS }}
 {{< layout/index }}
-
     {{$ content }}
-        <div class="card">
-            <div class="card-body">
+        {{#hasErrors}}
+        <div class="container">
+            <div class="alert alert-warning" role="alert">
                 {{#errors}}
-                    <div class="alert alert-warning" role="alert">
-                        {{ . }}
-                    </div>
+                    <p>{{ . }}</p>
                 {{/errors}}
-                <form class="row gy-2 gx-3 align-items-center" method="post">
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingUsername">Username</label>
-                        <div class="input-group">
-                            <div class="fidder-font-color input-group-text">@</div>
-                            <input name="username" type="text" class="form-control" id="autoSizingUsername"
-                                   placeholder="Username">
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingEmail">email</label>
-                        <div class="input-group">
-                            <div class="input-group-text">
-                                <i class="fidder-font-color bi bi-envelope-fill"></i>
-                            </div>
-                            <input name="email" type="email" class="form-control" id="autoSizingEmail"
-                                   placeholder="E-Mail">
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingPassword">password</label>
-                        <div class="input-group">
-                            <div class="input-group-text">
-                                <i class="bi bi-shield-lock-fill"></i>
-                            </div>
-                            <input name="email" type="password" class="form-control" id="autoSizingPassword"
-                                   placeholder="Passwort">
-                        </div>
-                    </div>
-                    <div class="row gy-2 gx-3">
-                        <div class="col text-end">
-                            <button class="btn btn-primary">Login</button>
-                        </div>
-                        <div class="col text-start">
-                            <button class="btn btn-primary">Abbruch</button>
-                        </div>
-                    </div>
-
-                </form>
             </div>
         </div>
+        {{/hasErrors}}
+        <div class="pb-3">
+            <div class="login-block">
+                <h1>Login</h1>
+                <form method="post">
+                    <input type="text" name="username" placeholder="Username" id="username" />
+                    <input type="email" name="email" placeholder="E-Mail" id="email" />
+                    <input type="password" name="password" placeholder="Password" id="password" />
+                    <button class="p-3">Login</button>
+                    <button class="p-3">Abbruch</button>
+                </form>
 
-
+            </div>
+        </div>
     {{/content}}
 {{/layout/index}}
 

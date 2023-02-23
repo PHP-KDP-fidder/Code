@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Login\LoginRequest;
 
+use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class LoginRequest
+class LoginRequest implements ValidatorRequestInterface
 {
     private readonly string $username;
     private readonly string $email;

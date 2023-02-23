@@ -7,17 +7,21 @@ use PhpFidder\Core\Components\Core\AbstractValidator;
 use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
 use PhpFidder\Core\Components\Login\LoginRequest\LoginRequest;
 
-#[\AllowDynamicProperties]
 final class LoginValidator extends AbstractValidator
 {
     public function enablePasswordIsInvalidError(): void
     {
-        $this->errors[] = 'Passwort ist falsch';
+        $this->setErrors('Passwort ist falsch');
     }
     //
     public function enableUserNotExistsError(): void
     {
-        $this->errors[] = 'User existiert nicht';
+        $this->setErrors('User existiert nicht');
+    }
+    //
+    public function enableEmailIsInvalidError(): void
+    {
+        $this->setErrors('E-Mail ist nicht korrekt');
     }
     /**
      * @param LoginRequest $request
@@ -38,13 +42,5 @@ final class LoginValidator extends AbstractValidator
 
         return $errors;
     }
-    /**
-     * @return array
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
 
 }
