@@ -13,7 +13,19 @@ final class LoginSuccessEvent
     public function __construct(private readonly UserEntity $user)
     {
     }
-
-
-    // TODO: Class erweitern
+    //
+    public function getUsername()
+    {
+        return $this->user->getUsername();
+    }
+    //
+    public function getEmail()
+    {
+        return $this->user->getEmail();
+    }
+    //
+    public function getUserId()
+    {
+        return $this->user->getId();
+    }
 }

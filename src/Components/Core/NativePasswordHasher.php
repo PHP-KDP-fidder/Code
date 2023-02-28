@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Core;
 
 final class NativePasswordHasher implements PasswordHasherInterface
 {
-
     public function hash(string $plainPassword): string
     {
         return password_hash($plainPassword, PASSWORD_BCRYPT);

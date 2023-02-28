@@ -24,8 +24,7 @@ final class Register
         private readonly UserRepository $userRepository,
         private readonly PasswordHasherInterface $passwordHasher,
         private readonly EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
     }
 
     public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface

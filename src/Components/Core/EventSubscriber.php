@@ -1,19 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Core;
 
-use PhpFidder\Core\Components\Landing\Event\IndexEvent;
-use PhpFidder\Core\Components\Landing\Event\IndexListener;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class EventSubscriber
 {
     /**
-     * @param EventDispatcher $eventDispatcher
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(private readonly EventDispatcherInterface $eventDispatcher,
-                                private readonly array $listeners)
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly array $listeners
+    )
     {
     }
 
@@ -21,7 +22,7 @@ class EventSubscriber
     {
         foreach ($this->listeners as $listener) {
             if (!$listener instanceof EventListenerInterface) {
-                $message = sprintf('%s iplementiert nicht EventListenerIntrface', get_class($listener));
+                $message = sprintf('%s implementiert nicht EventListenerInterface', get_class($listener));
                 throw new \Exception($message);
             }
             $subscribeEvents = $listener->getSubscribeEvent();
@@ -30,5 +31,4 @@ class EventSubscriber
             }
         }
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Login\LoginRequest;
@@ -26,7 +27,7 @@ class LoginRequest implements ValidatorRequestInterface
         }
     }
     //
-    public function isPostRequest():bool
+    public function isPostRequest(): bool
     {
         return $this->method === 'POST';
     }
@@ -55,7 +56,7 @@ class LoginRequest implements ValidatorRequestInterface
         return $this->password;
     }
 
-    public function withErrors(array $errors):self
+    public function withErrors(array $errors): self
     {
         $clone = clone $this;
         $clone->errors = $errors;
@@ -77,7 +78,4 @@ class LoginRequest implements ValidatorRequestInterface
     {
         return $this->method;
     }
-
-
-
 }

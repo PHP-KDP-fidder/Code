@@ -12,7 +12,9 @@ use PhpFidder\Core\Components\Landing\Action\index;
 use PhpFidder\Core\Components\Landing\Event\IndexEvent;
 use PhpFidder\Core\Components\Landing\Event\IndexListener;
 use PhpFidder\Core\Components\Login\Action\Login;
+use PhpFidder\Core\Components\Login\Action\Logout;
 use PhpFidder\Core\Components\Registration\Action\Register;
+use PhpFidder\Core\Components\UserSite\Action\Usermainsite;
 use PhpFidder\Core\Renderer\TemplateRendererInterface;
 use PhpFidder\Core\Renderer\TemplateRendererMiddleware;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -48,6 +50,11 @@ $router->map('POST','/account/create', Register::class);
 // Login
 $router->map('GET','/account/login', Login::class);
 $router->map('POST','/account/login', Login::class);
+// Logout
+$router->map('GET','/account/logout', Logout::class);
+// Usersite
+$router->map('GET','/account/usermainsite', Usermainsite::class);
+$router->map('POST','/account/usermainsite', Usermainsite::class);
 $response = $router->dispatch($request);
 
 // send the response to the browser

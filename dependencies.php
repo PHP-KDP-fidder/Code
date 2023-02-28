@@ -19,6 +19,7 @@ use PhpFidder\Core\Components\Core\EventSubscriber;
 use PhpFidder\Core\Components\Core\NativePasswordHasher;
 use PhpFidder\Core\Components\Core\PasswordHasherInterface;
 use PhpFidder\Core\Components\Landing\Event\IndexListener;
+use PhpFidder\Core\Components\Login\Event\LoginListener;
 use PhpFidder\Core\Components\Login\Validator\EmailValidator;
 use PhpFidder\Core\Hydrator\UserHydrator;
 use PhpFidder\Core\Renderer\MustacheTemplateRenderer;
@@ -82,17 +83,10 @@ return [
         return new SessionArrayStorage();
     },
     'session.config' => function() {
-        $sessionConfig = new SessionConfig();
-        $sessionConfig->setOptions([
-            'remember_me_seconds' => 86400,
-            'name' => 'login',
-            'use_cookies' => true,
-        ]);
-
-        return $sessionConfig;
+        return new SessionConfig();
     },
     ManagerInterface::class => function(ContainerInterface $container) {
-        return new SessionManager($container->get('session.config'));
+        return new SessionManager($container->get('session.config'), $container->get(StorageInterface::class));
     },
     Container::class => function(ContainerInterface $container) {
         return new Container('default', $container->get(ManagerInterface::class));
@@ -103,6 +97,7 @@ return [
     'listeners' => function(ContainerInterface $container) {
         return [
             $container->get(IndexListener::class),
+            $container->get(LoginListener::class),
         ];
     },
     EventSubscriber::class => function(ContainerInterface $container) {

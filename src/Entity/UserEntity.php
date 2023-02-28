@@ -14,8 +14,7 @@ class UserEntity
         private readonly string $email,
         private readonly string $passwordHash,
         private readonly DateTime $createdAt
-    )
-    {
+    ) {
     }
 
     /**

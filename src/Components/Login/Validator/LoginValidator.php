@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Login\Validator;
@@ -42,5 +43,4 @@ final class LoginValidator extends AbstractValidator
 
         return $errors;
     }
-
 }

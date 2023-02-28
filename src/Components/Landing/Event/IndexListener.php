@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Landing\Event;
@@ -14,7 +15,8 @@ final class IndexListener implements EventListenerInterface
         ];
     }
     //
-    public function onIndexEvent(IndexEvent $indexEvent) {
-        $indexEvent->setMessage('Willkommen vom Listener');
+    public function onIndexEvent(IndexEvent $indexEvent)
+    {
+        $indexEvent->setMessage('Willkommen bei fidder');
     }
 }

@@ -11,8 +11,10 @@ use PhpFidder\Core\Hydrator\UserHydrator;
 final class PDOUserRepository implements UserRepository
 {
     private array $created = [];
-    public function __construct(private readonly PDO $connection,
-                                private readonly UserHydrator $userHydrator)
+    public function __construct(
+        private readonly PDO $connection,
+        private readonly UserHydrator $userHydrator
+    )
     {
     }
 

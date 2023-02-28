@@ -32,4 +32,3 @@ class RegisterResponse extends Response implements RenderAwareInterface
         return 'register';
     }
 }
-

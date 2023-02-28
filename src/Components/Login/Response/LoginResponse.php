@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Login\Response;
@@ -22,7 +23,8 @@ class LoginResponse extends Response implements RenderAwareInterface
         $this->errors = $loginRequest->getErrors();
     }
 
-    public function hasErrors(): bool {
+    public function hasErrors(): bool
+    {
         return count($this->errors) > 0;
     }
     public function getTemplateName()

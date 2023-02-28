@@ -1,0 +1,14 @@
+{{% BLOCKS }}
+{{< layout/index }}
+    {{$ content }}
+        <h1>
+            Mein Account
+        </h1>
+        <h3>
+            User: {{userdata.username}}
+        </h3>
+        <h3>
+            E-Mail: {{userdata.email}}
+        </h3>
+    {{/content}}
+{{/ layout/index }}

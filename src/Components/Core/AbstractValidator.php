@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Core;
@@ -7,7 +8,7 @@ abstract class AbstractValidator
 {
     private array $errors = [];
 
-    abstract function validate(ValidatorRequestInterface $request):array;
+    abstract public function validate(ValidatorRequestInterface $request): array;
 
     public function isValid(ValidatorRequestInterface $request): bool
     {
@@ -27,9 +28,6 @@ abstract class AbstractValidator
         return $this->errors;
     }
 
-    /**
-     * @param array $errors
-     */
     public function setErrors(string $error): void
     {
         $this->errors[] = $error;
